@@ -26,12 +26,12 @@ jobs:
         run: docker pull sayan006/urbancmp-backend:latest
       - name: Remove existing container
         run: |
-          if [ $(docker ps -q -f name=urbancmp-backend-container) ]; then
+          if [ $(docker ps -aq -f name=urbancmp-backend-container) ]; then
             docker rm -f urbancmp-backend-container
           fi
       - name: Remove another existing container
         run: |
-          if [ $(docker ps -q -f name=urbancmp-backend-container-1) ]; then
+          if [ $(docker ps -aq -f name=urbancmp-backend-container-1) ]; then
             docker rm -f urbancmp-backend-container-1
           fi
       - name: Run Docker Container
