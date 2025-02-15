@@ -1,0 +1,28 @@
+name: Deploy UrbanCmp Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the source code
+        uses: action/checkout@v4
+      - name: Login to Docker Hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+      - name: Build Docker Image
+        run: docker build -t sayan006/urbancmp-backend .
+      - name: Publish Image in Docker Hub
+        run: docker push sayan006/urbancmp-backend:latest
+  
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Image from Docker Hub
+        run: docker pull sayan006/urbancmp-backend:latest
+      - name: Run Docker Container
+        run: docker run -d -p 5000:5000 --name urbancmp-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' sayan006/urbancmp-backend
