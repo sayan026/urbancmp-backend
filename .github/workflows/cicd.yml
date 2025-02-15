@@ -24,15 +24,10 @@ jobs:
     steps:
       - name: Pull Image from Docker Hub
         run: docker pull sayan006/urbancmp-backend:latest
-      - name: Remove existing container
+      - name: Force stop and remove any existing container
         run: |
-          if [ $(docker ps -aq -f name=urbancmp-backend-container) ]; then
-            docker rm -f urbancmp-backend-container
-          fi
-      - name: Remove another existing container
-        run: |
-          if [ $(docker ps -aq -f name=urbancmp-backend-container-1) ]; then
-            docker rm -f urbancmp-backend-container-1
-          fi
+          docker stop urbancmp-backend-container || true
+          docker rm -f urbancmp-backend-container || true
+
       - name: Run Docker Container
         run: docker run -d -p 4000:4000 --name urbancmp-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' sayan006/urbancmp-backend
