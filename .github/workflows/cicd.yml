@@ -13,8 +13,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-      - name: Remove all running containers
-        run: echo y | docker container prune || true
       - name: Build Docker Image
         run: docker build -t sayan006/urbancmp-backend .
       - name: Publish Image in Docker Hub
@@ -26,5 +24,15 @@ jobs:
     steps:
       - name: Pull Image from Docker Hub
         run: docker pull sayan006/urbancmp-backend:latest
+      - name: Remove existing container
+        run: |
+          if [ $(docker ps -q -f name=urbancmp-backend-container) ]; then
+            docker rm -f urbancmp-backend-container
+          fi
+      - name: Remove another existing container
+        run: |
+          if [ $(docker ps -q -f name=urbancmp-backend-container-1) ]; then
+            docker rm -f urbancmp-backend-container-1
+          fi
       - name: Run Docker Container
-        run: docker run -d -p 4000:4000 --name urbancmp-backend-container-1 -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' sayan006/urbancmp-backend
+        run: docker run -d -p 4000:4000 --name urbancmp-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' sayan006/urbancmp-backend
