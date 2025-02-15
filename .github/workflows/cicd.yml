@@ -25,4 +25,4 @@ jobs:
       - name: Pull Image from Docker Hub
         run: docker pull sayan006/urbancmp-backend:latest
       - name: Run Docker Container
-        run: docker run -d -p 5000:5000 --name urbancmp-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' sayan006/urbancmp-backend
+        run: docker run -d -p 4000:4000 --name urbancmp-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' sayan006/urbancmp-backend
