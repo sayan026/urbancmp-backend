@@ -30,4 +30,4 @@ jobs:
           docker rm -f urbancmp-backend-container || true
 
       - name: Run Docker Container
-        run: docker run -d -p 4000:4000 --name urbancmp-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' sayan006/urbancmp-backend
+        run: docker run -d -p 4000:4000 --name urbancmp-backend-container sayan006/urbancmp-backend
