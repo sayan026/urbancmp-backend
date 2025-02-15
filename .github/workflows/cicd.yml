@@ -14,7 +14,9 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
       - name: Stop and remove any existing containers
-        run: docker container prune || true
+        run: |
+            docker stop 3f4403c0e9c91aec2cf8371fcfedc551b90a4fb3e0b116d6376f3be483cd1fad || true
+            docker rm 3f4403c0e9c91aec2cf8371fcfedc551b90a4fb3e0b116d6376f3be483cd1fad || true
       - name: Build Docker Image
         run: docker build -t sayan006/urbancmp-backend .
       - name: Publish Image in Docker Hub
