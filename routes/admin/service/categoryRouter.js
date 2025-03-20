@@ -1,5 +1,5 @@
 import express from "express";
-import { saveData } from "../../../controllers/admin/service/category/indexController.js";
+import { saveData, getData } from "../../../controllers/admin/service/category/indexController.js";
 
 const router = express.Router();
 
@@ -8,5 +8,6 @@ const middlewareFn = (req, res, next) => {
 }
 
 router.post('/add', middlewareFn, saveData);
+router.get('/get', middlewareFn, getData);
 
 export default router;

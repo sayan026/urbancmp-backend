@@ -21,7 +21,15 @@ export const saveData = async (req, res, next) => {
 
         return res.status(200).json({ message: 'Service category added successfully' });
     } catch(err) {
-        // return res.status(500).json(err)
+        await next(err);
+    }
+}
+
+export const getData = async (req, res, next) => {
+    try {
+        const response = await ServiceCategory.find();
+        return res.status(200).json(response);
+    } catch(err) {
         await next(err);
     }
 }
